@@ -1,39 +1,62 @@
-var http = require("http");
-const path = require('path');
-const {readFile } = require('./file');
-const hostname = "localhost";
-const port = 8082;
-http.createServer(function (request, response) {
-  // Send the HTTP header
-  console.log(request.headers);
-  // Send the response body of file
-  if (request.method == 'GET') {
-    var fileUrl;
-    if (request.url == '/') fileUrl = '/index.html';
-    else fileUrl = request.url;
-    var filePath = path.resolve('./public' + fileUrl);
-    const fileExt = path.extname(filePath);
-    if (fileExt == '.html') {
+const http = require('http');
+const fs = require('fs');
 
-      readFile(filePath)
-      .then((data) => {
-        response.setHeader('Content-Type', 'text/html');
-        response.statusCode = 200;
-        console.log('file: ' + data);
-        response.end(data);
-      })
-      .catch((err) => {
-        console.error('Error reading file:', err);
-        response.statusCode = 500;
-        response.end('Internal Server Error');
-      });
+const PORT = 3000;
+const FILE_PATH = './data.json';
+
+const server = http.createServer((req, res) => {
+    if (req.url === '/users' && req.method === 'GET') {
+        // Đọc dữ liệu từ file JSON
+        fs.readFile(FILE_PATH, 'utf8', (err, data) => {
+            if (err) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ message: 'Lỗi đọc file' }));
+                return;
+            }
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(data);
+        });
     }
-  }
-  else {
-    response.statusCode = 404;
-    response.setHeader('Content-Type', 'text/html');
-    response.end('<html><body><h1>Error 404: ' + request.method + ' not supported</h1></body></html>');
-  }
-}).listen(port);
-// Console will print the message
-console.log(`Server running at http://${hostname}:${port}/`);
+
+    else if (req.url === '/users' && req.method === 'POST') {
+        let body = '';
+        req.on('data', chunk => {
+            body += chunk.toString(); // Convert buffer to string
+        });
+
+        req.on('end', () => {
+            const newUser = JSON.parse(body);
+
+            fs.readFile(FILE_PATH, 'utf8', (err, data) => {
+                if (err) {
+                    res.writeHead(500, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify({ message: 'Lỗi đọc file' }));
+                    return;
+                }
+
+                const users = JSON.parse(data);
+                users.push(newUser);
+
+                fs.writeFile(FILE_PATH, JSON.stringify(users, null, 2), (err) => {
+                    if (err) {
+                        res.writeHead(500, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({ message: 'Lỗi ghi file' }));
+                        return;
+                    }
+
+                    res.writeHead(201, { 'Content-Type': 'application/json' });
+                    res.end(JSON.stringify(newUser));
+                });
+            });
+        });
+    }
+
+    else {
+        res.writeHead(404, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ message: 'Không tìm thấy' }));
+    }
+});
+
+server.listen(PORT, () => {
+    console.log(`Server đang chạy tại http://localhost:${PORT}`);
+});
