@@ -9,6 +9,7 @@ router.get('/questions', question.getAllQuestion);
 router.get('/questions/:id', question.getQuestion);
 router.put('/questions/:id', question.updateQuestion);
 router.delete('/questions/:id', question.deleteQuestion);
+router.delete('/questions', question.deleteAllQuestion);
 
 router.post('/quizzes', quiz.createQuiz);
 router.get('/quizzes', quiz.getAllQuizzes);

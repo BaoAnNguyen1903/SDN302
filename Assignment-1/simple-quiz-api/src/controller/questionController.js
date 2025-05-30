@@ -1,4 +1,5 @@
 const Question = require('../model/question');
+const Quiz = require('../model/quiz');
 
 exports.createQuestion = async (req, res) => {
   try {
@@ -29,14 +30,48 @@ exports.updateQuestion = async (req, res) => {
 // DELETE /question/:id
 exports.deleteQuestion = async (req, res) => {
   try {
-    const deletedQuestion = await Question.findByIdAndDelete(req.params.id);
+    const questionId = req.params.id;
+    const isUsedInQuiz = await Quiz.findOne({ questions: questionId });
+
+    if (isUsedInQuiz) {
+      return res.status(400).json({ message: "This question is used in a quiz and cannot be deleted." });
+    }
+    const deletedQuestion = await Question.findByIdAndDelete(questionId);
 
     if (!deletedQuestion) {
       return res.status(404).json({ message: "Don't match ID" });
     }
 
-    res.status(200).json({ message: "Delete Sucessfully!" });
+    res.status(200).json({ message: "Delete Successfully!" });
   } catch (error) {
-    res.status(500).json({ message: "Sever Error", error: error.message });
+    res.status(500).json({ message: "Server Error", error: error.message });
+  }
+};
+
+exports.deleteAllQuestion = async (req, res) => {
+  try {
+    const quizzes = await Quiz.find({}, 'questions'); // chỉ lấy trường 'questions'
+    let usedQuestionIds = [];
+
+    quizzes.forEach(quiz => {
+      usedQuestionIds.push(...quiz.questions.map(id => id.toString()));
+    });
+
+    // Bước 2: Tìm các câu hỏi KHÔNG nằm trong quiz nào
+    const deletableQuestions = await Question.find({
+      _id: { $nin: usedQuestionIds } // $nin = không nằm trong danh sách
+    });
+
+    // Bước 3: Nếu không có câu hỏi nào để xoá thì báo lại
+    if (deletableQuestions.length === 0) {
+      return res.status(404).json({ message: "Không có câu hỏi nào để xoá." });
+    }
+
+    // Bước 4: Xoá những câu hỏi không bị dùng trong quiz
+    await Question.deleteMany({ _id: { $in: deletableQuestions.map(q => q._id) } });
+
+    res.status(200).json({ message: `Đã xoá ${deletableQuestions.length} câu hỏi.` });
+  } catch (error) {
+    res.status(500).json({ message: "Lỗi server", error: error.message });
   }
 };
