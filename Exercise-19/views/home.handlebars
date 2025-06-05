@@ -1,0 +1,25 @@
+{{!-- ex1 --}}
+<h1>{{title}}</h1>
+<p>{{message}}</p>
+
+{{!-- ex2 --}}
+<h1>{{message}}</h1>
+
+{{!-- ex3 --}}
+<h1>News Articles</h1>
+<ul>
+  {{#each articles}}
+    <li>
+      <strong>{{title}}</strong> by {{author}} on {{formatDate date}}
+    </li>
+  {{/each}}
+</ul>
+
+
+{{!-- ex4 --}}
+<h1>News Articles</h1>
+<ul>
+  {{#each articles}}
+    {{> article}}
+  {{/each}}
+</ul>
