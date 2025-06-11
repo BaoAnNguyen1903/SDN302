@@ -1,10 +1,13 @@
-const Question = require("../model/question");
+const Quiz = require("../model/quiz");
 
 const getHomepage = async (req, res) => {
-    let results = await Question.find({});
-    return res.render('layout/home.ejs',{listQustions: results});
-}
+    let results = await Quiz.find({});
+    return res.render('layout/home.ejs', {
+        listQuiz: results,
+    });
+};
+
 
 module.exports = {
-    getHomepage,
+    getHomepage
 }

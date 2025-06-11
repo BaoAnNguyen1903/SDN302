@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Danh sách Quiz</title>
+  <title>QuizMaster</title>
   <link rel="stylesheet" href="/style/style.css" />
   <!-- Font Awesome -->
   <link
@@ -20,6 +20,7 @@
       font-family: Arial, sans-serif;
       display: flex;
       flex-direction: column;
+      scroll-behavior: smooth;
     }
 
     /* Navbar */
@@ -29,6 +30,11 @@
       align-items: center;
       padding: 16px 24px;
       background: linear-gradient(to right, #c2e9c9, #77d497);
+    }
+
+    .navbar-left {
+      display: flex;
+      padding-left: 35px;
     }
 
     .nav-item {
@@ -45,6 +51,7 @@
     .navbar-right {
       display: flex;
       align-items: center;
+      padding-right: 20px;
     }
 
     .username {
@@ -56,119 +63,119 @@
       text-overflow: ellipsis;
     }
 
-    /* Title */
-    .title {
-      text-align: center;
-      margin: 32px 0 24px;
-      font-size: 36px;
-      color: #122e1f;
+    .dropdown {
+      position: relative;
+      cursor: pointer;
     }
 
-    /* Card container */
-    .card-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 24px;
-      padding: 0 24px 40px;
-    }
-
-    .card {
-      width: 300px;
+    .dropdown-toggle {
+      font-size: 14px;
+      color: #222;
+      padding: 8px 12px;
       background: #fff;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s ease;
+      border-radius: 6px;
+      transition: background 0.2s;
     }
 
-    .card:hover {
-      transform: scale(1.03);
+    .dropdown-toggle:hover {
+      background: #e0f2e9;
     }
 
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 36px;
+      right: 0;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+      z-index: 10;
+      padding: 8px 0;
+      min-width: 120px;
     }
 
-    .card-content {
-      padding: 16px;
-    }
-
-    .card-content h3 {
-      margin: 0 0 8px;
-      font-weight: bold;
-      color: #122e1f;
-    }
-
-    .card-content p {
-      color: #28a745;
+    .dropdown-menu form {
       margin: 0;
     }
 
-    /* Footer */
-    .footer {
-      margin-top: auto;
-      text-align: center;
-      padding: 16px 0;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-      color: #333;
+    .dropdown-menu button {
+      background: none;
+      border: none;
+      width: 100%;
+      padding: 8px 16px;
+      text-align: left;
       font-size: 14px;
+      cursor: pointer;
+      color: #222;
     }
+
+
+    /* .dropdown:hover .dropdown-menu {
+      display: block;
+    } */
+
+
+    
+    .dropdown-menu.show {
+      display: block;
+    }
+
+    /* Hero Section */
     .hero {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 60px 40px;
-      background: #f6fff8;
+      background: linear-gradient(120deg, #e6f4ea, #ffffff);
       flex-wrap: wrap;
+      border-bottom: 1px solid #dbece0;
     }
 
     .hero-content {
-        padding-left: 60px;
       flex: 1;
       max-width: 550px;
+      padding: 0 20px;
     }
 
     .hero-content h1 {
-      font-size: 42px;
-      margin-bottom: 16px;
+      font-size: 48px;
+      font-weight: 700;
+      margin-bottom: 20px;
       color: #1b4332;
     }
 
     .hero-content .brand {
       color: #2d6a4f;
-      font-weight: bold;
+      font-weight: 800;
     }
 
     .hero-content p {
       font-size: 18px;
       color: #4f4f4f;
-      margin-bottom: 24px;
+      margin-bottom: 28px;
+      line-height: 1.5;
     }
 
     .btn-create {
-      background: #52b788;
+      background: #40916c;
       color: white;
-      padding: 12px 24px;
+      padding: 14px 28px;
       border-radius: 8px;
       text-decoration: none;
       font-size: 16px;
       transition: background 0.3s ease;
+      display: inline-block;
     }
 
     .btn-create:hover {
-      background: #40916c;
+      background: #2d6a4f;
     }
 
     .hero-img {
       flex: 1;
-      max-width: 500px;
-      width: 100%;
-      margin-top: 20px;
+      max-width: 350px;
+      margin-top: 30px;
     }
 
     @media (max-width: 768px) {
@@ -178,11 +185,16 @@
         padding: 40px 20px;
       }
 
+      .hero-content {
+        padding: 0;
+      }
+
       .hero-img {
-        margin-top: 40px;
+        margin-top: 30px;
       }
     }
-     /* Quiz Card Section */
+
+    /* Title */
     .title {
       text-align: center;
       margin: 40px 0 24px;
@@ -190,6 +202,7 @@
       color: #122e1f;
     }
 
+    /* Card Section */
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -233,54 +246,90 @@
     .card-content p {
       margin: 4px 0;
       font-size: 14px;
-      color: #555;
+      color: #77d497;
     }
 
-    .card-content .creator {
-      font-size: 13px;
-      color: #888;
-      margin-top: 8px;
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 16px 0;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+      color: #333;
+      font-size: 14px;
     }
   </style>
 </head>
 <body>
+
+  <!-- Navbar -->
   <header class="navbar">
     <div class="navbar-left">
       <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
       <a href="/questions" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
     </div>
     <div class="navbar-right">
-      <span class="username">Hi, Nguyễn Đình Bảo An</span>
+      <% if (user) { %>
+        <div class="dropdown">
+          <span id="dropdown-toggle" class="username dropdown-toggle">Hi, <%= user.username %></span>
+          <div id="dropdown-menu" class="dropdown-menu">
+            <form action="/logout" method="POST">
+              <button type="submit">Logout</button>
+            </form>
+          </div>
+        </div>
+      <% } else { %>
+        <a href="/login" class="nav-item"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
+      <% } %>
     </div>
   </header>
 
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Chào mừng đến với <span class="brand">QuizMaster</span></h1>
-      <p>Tạo và kiểm tra kiến thức của bạn qua các bộ câu hỏi nhanh chóng và dễ dàng.</p>
-      <a href="/questions" class="btn-create">+ Tạo Quiz mới</a>
+      <h1>Khám phá kiến thức cùng <span class="brand">QuizMaster</span></h1>
+      <p>Tạo các bộ câu hỏi thú vị, kiểm tra kỹ năng của bạn và chia sẻ cùng bạn bè.</p>
+      <a href="#quiz-list" class="btn-create">Bắt đầu ngay</a>
     </div>
+    <img src="/images/hero.png" alt="Quiz Illustration" class="hero-img" />
   </section>
 
+  <!-- Quiz List -->
   <h2 class="title">Danh sách Quiz</h2>
-  <div class="card-container">
-    <% listQustions.forEach(q => { %>
-      <a href="/questions/<%= q._id %>" class="card">
-        <img src="<%= q.image || 'https://via.placeholder.com/300x200?text=Quiz' %>" alt="Quiz Image">
+  <div id="quiz-list" class="card-container">
+    <% listQuiz.forEach(q => { %>
+      <a href="/questions/<%= q._id %>" class="card">   
+        <img src="/images/image.png" alt="Quiz Image">
         <div class="card-content">
           <h3><%= q.title || "Không có tiêu đề" %></h3>
           <p><%= q.description || "Không có mô tả." %></p>
-          <div class="creator"><i class="fas fa-user"></i> <%= q.createdBy || "Người dùng ẩn danh" %></div>
         </div>
       </a>
     <% }); %>
   </div>
 
-  
-
+  <!-- Footer -->
   <footer class="footer">
-    <div>© 2025 Made by Nguyen Dinh Bao An.</div>
+    <div>© 2025 QuizMaster. Created by Nguyen Dinh Bao An</div>
   </footer>
+
+  <script src="/js/auth.js"></script>
+  <script>
+  const toggle = document.getElementById('dropdown-toggle');
+  const menu = document.getElementById('dropdown-menu');
+
+  toggle.addEventListener('click', (e) => {
+    menu.classList.toggle('show');
+    e.stopPropagation();
+  });
+
+  // Đóng menu nếu click ra ngoài
+  document.addEventListener('click', (e) => {
+    if (!menu.contains(e.target)) {
+      menu.classList.remove('show');
+    }
+  });
+</script>
+
 </body>
 </html>
