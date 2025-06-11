@@ -54,73 +54,6 @@
       padding-right: 20px;
     }
 
-    .username {
-      color: #222;
-      font-size: 14px;
-      max-width: 150px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .dropdown {
-      position: relative;
-      cursor: pointer;
-    }
-
-    .dropdown-toggle {
-      font-size: 14px;
-      color: #222;
-      padding: 8px 12px;
-      background: #fff;
-      border-radius: 6px;
-      transition: background 0.2s;
-    }
-
-    .dropdown-toggle:hover {
-      background: #e0f2e9;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 36px;
-      right: 0;
-      background: #fff;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-      z-index: 10;
-      padding: 8px 0;
-      min-width: 120px;
-    }
-
-    .dropdown-menu form {
-      margin: 0;
-    }
-
-    .dropdown-menu button {
-      background: none;
-      border: none;
-      width: 100%;
-      padding: 8px 16px;
-      text-align: left;
-      font-size: 14px;
-      cursor: pointer;
-      color: #222;
-    }
-
-
-    /* .dropdown:hover .dropdown-menu {
-      display: block;
-    } */
-
-
-    
-    .dropdown-menu.show {
-      display: block;
-    }
-
     /* Hero Section */
     .hero {
       display: flex;
@@ -269,18 +202,7 @@
       <a href="/questions" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
     </div>
     <div class="navbar-right">
-      <% if (user) { %>
-        <div class="dropdown">
-          <span id="dropdown-toggle" class="username dropdown-toggle">Hi, <%= user.username %></span>
-          <div id="dropdown-menu" class="dropdown-menu">
-            <form action="/logout" method="POST">
-              <button type="submit">Logout</button>
-            </form>
-          </div>
-        </div>
-      <% } else { %>
-        <a href="/login" class="nav-item"><i class="fas fa-sign-in-alt"></i> Đăng nhập</a>
-      <% } %>
+      <span>Hi, Nguyen Dinh Bao An...</span>
     </div>
   </header>
 
