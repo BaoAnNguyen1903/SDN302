@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Danh sách Quiz</title>
+  <link rel="stylesheet" href="/style/style.css" />
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+    }
+
+    .nav-item {
+      margin-right: 24px;
+      color: #000;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .nav-item i {
+      margin-right: 6px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+    }
+
+    .username {
+      color: #222;
+      font-size: 14px;
+      max-width: 150px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Title */
+    .title {
+      text-align: center;
+      margin: 32px 0 24px;
+      font-size: 36px;
+      color: #122e1f;
+    }
+
+    /* Card container */
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 0 24px 40px;
+    }
+
+    .card {
+      width: 300px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    .card-content h3 {
+      margin: 0 0 8px;
+      font-weight: bold;
+      color: #122e1f;
+    }
+
+    .card-content p {
+      color: #28a745;
+      margin: 0;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 16px 0;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+      color: #333;
+      font-size: 14px;
+    }
+    .hero {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 60px 40px;
+      background: #f6fff8;
+      flex-wrap: wrap;
+    }
+
+    .hero-content {
+        padding-left: 60px;
+      flex: 1;
+      max-width: 550px;
+    }
+
+    .hero-content h1 {
+      font-size: 42px;
+      margin-bottom: 16px;
+      color: #1b4332;
+    }
+
+    .hero-content .brand {
+      color: #2d6a4f;
+      font-weight: bold;
+    }
+
+    .hero-content p {
+      font-size: 18px;
+      color: #4f4f4f;
+      margin-bottom: 24px;
+    }
+
+    .btn-create {
+      background: #52b788;
+      color: white;
+      padding: 12px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+
+    .btn-create:hover {
+      background: #40916c;
+    }
+
+    .hero-img {
+      flex: 1;
+      max-width: 500px;
+      width: 100%;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        flex-direction: column;
+        text-align: center;
+        padding: 40px 20px;
+      }
+
+      .hero-img {
+        margin-top: 40px;
+      }
+    }
+     /* Quiz Card Section */
+    .title {
+      text-align: center;
+      margin: 40px 0 24px;
+      font-size: 32px;
+      color: #122e1f;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 24px;
+      padding: 0 24px 60px;
+    }
+
+    .card {
+      width: 300px;
+      background: #fff;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover {
+      transform: scale(1.03);
+    }
+
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .card-content {
+      padding: 16px;
+    }
+
+    .card-content h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+      font-weight: bold;
+      color: #122e1f;
+    }
+
+    .card-content p {
+      margin: 4px 0;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .card-content .creator {
+      font-size: 13px;
+      color: #888;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
+      <a href="/questions" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
+    </div>
+    <div class="navbar-right">
+      <span class="username">Hi, Nguyễn Đình Bảo An</span>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <h1>Chào mừng đến với <span class="brand">QuizMaster</span></h1>
+      <p>Tạo và kiểm tra kiến thức của bạn qua các bộ câu hỏi nhanh chóng và dễ dàng.</p>
+      <a href="/questions" class="btn-create">+ Tạo Quiz mới</a>
+    </div>
+  </section>
+
+  <h2 class="title">Danh sách Quiz</h2>
+  <div class="card-container">
+    <% listQustions.forEach(q => { %>
+      <a href="/questions/<%= q._id %>" class="card">
+        <img src="<%= q.image || 'https://via.placeholder.com/300x200?text=Quiz' %>" alt="Quiz Image">
+        <div class="card-content">
+          <h3><%= q.title || "Không có tiêu đề" %></h3>
+          <p><%= q.description || "Không có mô tả." %></p>
+          <div class="creator"><i class="fas fa-user"></i> <%= q.createdBy || "Người dùng ẩn danh" %></div>
+        </div>
+      </a>
+    <% }); %>
+  </div>
+
+  
+
+  <footer class="footer">
+    <div>© 2025 Made by Nguyen Dinh Bao An.</div>
+  </footer>
+</body>
+</html>
