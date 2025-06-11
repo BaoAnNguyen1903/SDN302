@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chỉnh sửa Câu hỏi | QuizMaster</title>
+  <link rel="stylesheet" href="/style/style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    .form-container {
+      max-width: 800px;
+      margin: 40px auto;
+      background: #fff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-title {
+      font-size: 28px;
+      color: #1b4332;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      font-weight: bold;
+      color: #2d6a4f;
+      display: block;
+      margin-bottom: 6px;
+    }
+
+    .form-input, .form-select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    .btn-submit {
+      background-color: #52b788;
+      color: #fff;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .btn-submit:hover {
+      background-color: #40916c;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+    }
+
+    .navbar-left {
+      display: flex;
+      padding-left: 35px;
+    }
+
+    .nav-item {
+      margin-right: 24px;
+      color: #000;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .nav-item i {
+      margin-right: 6px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      padding-right: 20px;
+    }
+
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 16px 0;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+      color: #333;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
+      <a href="/createQuizPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
+      <a href="/createQuestionPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Question</a>
+      <a href="/listQuestions" class="nav-item"> List Question</a>
+    </div>
+    <div class="navbar-right">
+      <span>Hi, Nguyen Dinh Bao An...</span>
+    </div>
+  </header>
+
+  <div class="form-container">
+    <h2 class="form-title">Chỉnh sửa Câu hỏi</h2>
+    <form action="/v1/api/questions/<%= question._id %>?_method=PUT" method="POST">
+      <div class="form-group">
+        <label class="form-label" for="text">Câu hỏi</label>
+        <input type="text" id="text" name="text" class="form-input" value="<%= question.text %>" required />
+      </div>
+
+      <% question.options.forEach((opt, idx) => { %>
+        <div class="form-group">
+          <label class="form-label" for="option<%= idx %>">Lựa chọn <%= String.fromCharCode(65 + idx) %></label>
+          <input type="text" id="option<%= idx %>" name="options[]" class="form-input" value="<%= opt %>" required />
+        </div>
+      <% }) %>
+
+      <div class="form-group">
+        <label class="form-label" for="correctAnswerIndex">Đáp án đúng</label>
+        <select id="correctAnswerIndex" name="correctAnswerIndex" class="form-select" required>
+          <% question.options.forEach((_, idx) => { %>
+            <option value="<%= idx %>" <%= idx === question.correctAnswerIndex ? "selected" : "" %>>
+              <%= String.fromCharCode(65 + idx) %>
+            </option>
+          <% }) %>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Lưu thay đổi</button>
+    </form>
+  </div>
+
+  <footer class="footer">
+    <div>© 2025 QuizMaster. Created by Nguyen Dinh Bao An</div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>QuizMaster</title>
+  <link rel="stylesheet" href="/style/style.css" />
+  <!-- Font Awesome -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+    }
+
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+    }
+
+    .navbar-left {
+      display: flex;
+      padding-left: 35px;
+    }
+
+    .nav-item {
+      margin-right: 24px;
+      color: #000;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .nav-item i {
+      margin-right: 6px;
+    }
+
+    .navbar-right {
+      display: flex;
+      align-items: center;
+      padding-right: 20px;
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 16px 0;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+      color: #333;
+      font-size: 14px;
+    }
+
+    .question-card {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s;
+}
+
+.question-card:hover {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+.options {
+  margin-top: 12px;
+}
+
+.option-label {
+  display: block;
+  margin: 6px 0;
+  cursor: pointer;
+  padding-left: 6px;
+  font-size: 15px;
+}
+.btn-create {
+  background: #7bd59a;
+  color: white;
+  padding: 14px 28px;
+  border: none; /* Xóa viền */
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 16px;
+  transition: background 0.3s ease;
+  display: inline-block;
+  text-align: center;
+  cursor: pointer;
+}
+
+.btn-create:hover {
+  background: #2d6a4f;
+}
+
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
+      <a href="/createQuizPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
+      <a href="/createQuestionPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Question</a>
+      <a href="/listQuestions" class="nav-item"> List Question</a>
+    </div>
+    <div class="navbar-right">
+      <span>Hi, Nguyen Dinh Bao An...</span>
+    </div>
+  </header>
+
+  <main style="padding: 32px;">
+    <h1 style="color: #77d497;"><%= quiz.title %></h1>
+    <p style="padding-bottom: 32px;"><%= quiz.description %></p>
+
+    <form id="quiz-form">
+      <% quiz.questions.forEach((q, index) => { %>
+        <div class="question-card">
+            <strong>Câu <%= index + 1 %>: </strong> <%= q.text %>
+            <div class="options">
+                <% q.options.forEach((opt, i) => { %>
+                <label class="option-label">
+                    <input type="radio" name="question_<%= q._id %>" value="<%= opt %>" />
+                    <%= opt %>
+                </label>
+                <% }) %>
+            </div>
+        </div>
+      <% }) %>
+
+      <div style="text-align: center; margin-top: 32px;">
+        <button type="submit" class="btn-create">Nộp bài</button>
+        </div>
+    </form>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div>© 2025 QuizMaster. Created by Nguyen Dinh Bao An</div>
+  </footer>
+
+  <script>
+  document.getElementById('quiz-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    // Reset lại giao diện mỗi lần submit
+    document.querySelectorAll('.question-card').forEach(card => {
+      card.style.borderColor = '#ddd';
+      card.style.backgroundColor = '#fff';
+
+      const oldAnswer = card.querySelector('.correct-answer');
+      if (oldAnswer) oldAnswer.remove();
+    });
+
+    const formData = new FormData(e.target);
+    const answers = {};
+
+    for (const [key, value] of formData.entries()) {
+      const questionId = key.replace('question_', '');
+      answers[questionId] = value;
+    }
+
+    try {
+      const response = await fetch('/v1/api/quizzes/submit-quiz', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ answers })
+      });
+
+      if (!response.ok) {
+        throw new Error('Lỗi khi gửi bài làm. Vui lòng thử lại.');
+      }
+
+      const data = await response.json();
+
+      data.results.forEach(result => {
+        const card = document.querySelector(`[name="question_${result.questionId}"]`)?.closest('.question-card');
+        if (card) {
+          card.style.borderColor = result.correct ? '#4caf50' : '#e63946';
+          card.style.backgroundColor = result.correct ? '#e9f9ef' : '#ffe6e6';
+
+          if (!result.correct) {
+            const correctAnswerEl = document.createElement('div');
+            correctAnswerEl.classList.add('correct-answer');
+            correctAnswerEl.style.marginTop = '8px';
+            correctAnswerEl.style.color = '#e63946';
+            correctAnswerEl.style.fontWeight = 'bold';
+            correctAnswerEl.textContent = `Đáp án đúng: ${result.correctAnswer}`;
+            card.appendChild(correctAnswerEl);
+          }
+        }
+      });
+    } catch (error) {
+      alert(error.message || 'Đã xảy ra lỗi không xác định.');
+    }
+  });
+</script>
+
+
+</body>
+</html>

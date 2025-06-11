@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chi tiết Câu hỏi | QuizMaster</title>
+  <link rel="stylesheet" href="/style/style.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      flex-direction: column;
+      scroll-behavior: smooth;
+      background-color: #f7fdf9;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+    }
+
+    .navbar-left {
+      display: flex;
+      padding-left: 35px;
+    }
+
+    .nav-item {
+      margin-right: 24px;
+      color: #000;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .nav-item i {
+      margin-right: 6px;
+    }
+
+    .navbar-right {
+      padding-right: 20px;
+    }
+
+    .detail-container {
+      max-width: 700px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 32px;
+      border-radius: 16px;
+      box-shadow: 0 6px 30px rgba(0, 0, 0, 0.08);
+    }
+
+    .detail-title {
+      font-size: 28px;
+      color: #77d497;
+      margin-bottom: 28px;
+      text-align: center;
+      border-bottom: 1px solid #d9f2e4;
+      padding-bottom: 10px;
+    }
+
+    .detail-field {
+      margin-bottom: 20px;
+    }
+
+    .detail-label {
+      font-weight: bold;
+      color: #77d497;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .detail-value {
+      font-size: 16px;
+      color: #333;
+    }
+
+    ul.detail-value {
+      padding-left: 20px;
+    }
+
+    .correct-answer {
+      background-color: #d8f3dc;
+      padding: 6px 12px;
+      border-radius: 8px;
+      display: inline-block;
+      color: #1b4332;
+      font-weight: bold;
+    }
+
+    .option-item {
+      margin-bottom: 6px;
+    }
+
+    .option-correct {
+      color: #77d497;
+      font-weight: bold;
+    }
+
+    .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+    }
+
+    .btn-group a,
+    .btn-group form button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-edit {
+      background-color: #f4a261;
+      color: #fff;
+    }
+
+    .btn-edit:hover {
+      background-color: #e76f51;
+    }
+
+    .btn-delete {
+      background-color: #e63946;
+      color: #fff;
+    }
+
+    .btn-delete:hover {
+      background-color: #c1121f;
+    }
+
+    .footer {
+      margin-top: auto;
+      text-align: center;
+      padding: 16px 0;
+      background: linear-gradient(to right, #c2e9c9, #77d497);
+      color: #333;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
+      <a href="/createQuizPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
+      <a href="/createQuestionPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Question</a>
+      <a href="/listQuestions" class="nav-item"> List Question</a>
+    </div>
+    <div class="navbar-right">
+      <span>Hi, Nguyen Dinh Bao An...</span>
+    </div>
+  </header>
+
+  <!-- Detail Content -->
+  <div class="detail-container">
+    <h2 class="detail-title">Chi tiết Câu hỏi</h2>
+
+    <div class="detail-field">
+      <span class="detail-label">Câu hỏi:</span>
+      <div class="detail-value"><%= question.text %></div>
+    </div>
+
+    <div class="detail-field">
+      <span class="detail-label">Các lựa chọn:</span>
+      <ul class="detail-value">
+        <% question.options.forEach((opt, idx) => { %>
+          <li class="option-item <%= idx === question.correctAnswerIndex ? 'option-correct' : '' %>">
+            <%= String.fromCharCode(65 + idx) %>. <%= opt %>
+            <% if (idx === question.correctAnswerIndex) { %>
+              <i class="fas fa-check-circle"></i>
+            <% } %>
+          </li>
+        <% }) %>
+      </ul>
+    </div>
+
+    <div class="detail-field">
+      <span class="detail-label">Đáp án đúng:</span>
+      <div class="detail-value correct-answer">
+        <%= String.fromCharCode(65 + question.correctAnswerIndex) %>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <a href="/questions/<%= question._id %>/edit" class="btn-edit"><i class="fas fa-edit"></i> Chỉnh sửa</a>
+      <form action="http://localhost:8080/v1/api/deleteQuestions/<%= question._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Bạn có chắc muốn xoá câu hỏi này?')">
+        <button type="submit" class="btn-delete"><i class="fas fa-trash"></i> Xoá</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div>© 2025 QuizMaster. Created by Nguyen Dinh Bao An</div>
+  </footer>
+</body>
+</html>
