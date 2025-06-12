@@ -31,7 +31,7 @@ const getUpdateQuizPage = async (req, res) => {
 
 const getQuizDetailPage = async (req, res) => {
   try {
-    const quiz = await Quiz.findById(req.params.quizId).populate('questions');
+    const quiz = await Quiz.findById(req.params.id).populate('questions');
     if (!quiz) {
       return res.status(404).send('Quiz not found');
     }

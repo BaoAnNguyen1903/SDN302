@@ -68,7 +68,6 @@ exports.updateQuiz = async (req, res) => {
       return res.status(404).json({ message: 'Quiz not found.' });
     }
 
-    // ✅ Gửi redirect là đủ, không cần res.json nữa
     return res.redirect('/');
   } catch (error) {
     console.error('Update quiz error:', error);

@@ -4,11 +4,12 @@ const router = express.Router();
 
 router.get('/', getHomepage);
 router.get('/createQuizPage', getCreateQuizPage);
-router.get('/listQuestions', getListQuestionPage)
-router.get('/createQuestionPage', getCreateQuestionPage);
-router.get('/quiz/:quizId', getQuizDetailPage);
 router.get('/quizzes/:quizId/edit', getUpdateQuizPage);
-router.get('/questions/:id', getQuestionDetailPage),
+router.get('/quizzes/:id', getQuizDetailPage);
+
+router.get('/listQuestions', getListQuestionPage);
+router.get('/createQuestionPage', getCreateQuestionPage);
 router.get('/questions/:questionId/edit', getUpdateQuestionPage);
+router.get('/questions/:id', getQuestionDetailPage);
 
 module.exports = router;

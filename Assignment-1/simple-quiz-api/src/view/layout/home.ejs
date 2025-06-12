@@ -204,11 +204,11 @@
           <p><%= q.description || "Không có mô tả." %></p>
         </div>
         <div class="card-actions">
-          <a class="btn-do" href="/quiz/<%= q._id %>"><i class="fas fa-play"></i> Làm bài</a>
+          <a class="btn-do" href="/quizzes/<%= q._id %>"><i class="fas fa-play"></i>Làm bài</a>
           <a class="btn-edit" href="/quizzes/<%= q._id %>/edit"><i class="fas fa-edit"></i> Sửa</a>
-          <form action="http://localhost:8080/v1/api/deleteQuizzes/<%= q._id %>?_method=DELETE" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa quiz này?');">
-  <button type="submit" class="btn-delete"><i class="fas fa-trash-alt"></i> Xóa</button>
-</form>
+          <form action="/deleteQuizzes/<%= q._id %>" method="POST" onsubmit="return confirm('Bạn có chắc muốn xóa quiz này?');">
+            <button type="submit" class="btn-delete"><i class="fas fa-trash-alt"></i> Xóa</button>
+          </form>
         </div>
       </div>
     <% }); %>
