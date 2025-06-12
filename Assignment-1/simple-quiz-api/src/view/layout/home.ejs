@@ -3,9 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QuizMaster</title>
-  <link rel="stylesheet" href="/style/style.css" />
-  <!-- Font Awesome -->
+  <title>Question Bank</title>
   <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
@@ -13,47 +11,6 @@
     referrerpolicy="no-referrer"
   />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      scroll-behavior: smooth;
-    }
-
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-    }
-
-    .navbar-left {
-      display: flex;
-      padding-left: 35px;
-    }
-
-    .nav-item {
-      margin-right: 24px;
-      color: #000;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .nav-item i {
-      margin-right: 6px;
-    }
-
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      padding-right: 20px;
-    }
-
     /* Hero Section */
     .hero {
       display: flex;
@@ -183,74 +140,51 @@
     }
 
     .card-actions a,
-.card-actions form button {
-  text-decoration: none;
-  padding: 6px 12px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.btn-do {
-  background-color: #52b788;
-  color: #fff;
-}
-
-.btn-do:hover {
-  background-color: #40916c;
-}
-
-.btn-edit {
-  background-color: #f4a261;
-  color: #fff;
-}
-
-.btn-edit:hover {
-  background-color: #e76f51;
-}
-
-.btn-delete {
-  background-color: #e63946;
-  color: #fff;
-}
-
-.btn-delete:hover {
-  background-color: #c1121f;
-}
-
-
-    /* Footer */
-    .footer {
-      margin-top: auto;
-      text-align: center;
-      padding: 16px 0;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-      color: #333;
+    .card-actions form button {
+      text-decoration: none;
+      padding: 6px 12px;
       font-size: 14px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-do {
+      background-color: #52b788;
+      color: #fff;
+    }
+
+    .btn-do:hover {
+      background-color: #40916c;
+    }
+
+    .btn-edit {
+      background-color: #f4a261;
+      color: #fff;
+    }
+
+    .btn-edit:hover {
+      background-color: #e76f51;
+    }
+
+    .btn-delete {
+      background-color: #e63946;
+      color: #fff;
+    }
+
+    .btn-delete:hover {
+      background-color: #c1121f;
     }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
-      <a href="/createQuizPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
-      <a href="/createQuestionPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Question</a>
-      <a href="/listQuestions" class="nav-item"> List Question</a>
-    </div>
-    <div class="navbar-right">
-      <span>Hi, Nguyen Dinh Bao An...</span>
-    </div>
-  </header>
-
+  <%- include('../partial/header') %>
+  
   <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Khám phá kiến thức cùng <span class="brand">QuizMaster</span></h1>
+      <h1>Khám phá kiến thức cùng <span class="brand">Question Bank</span></h1>
       <p>Tạo các bộ câu hỏi thú vị, kiểm tra kỹ năng của bạn và chia sẻ cùng bạn bè.</p>
       <a href="#quiz-list" class="btn-create">Bắt đầu ngay</a>
     </div>
@@ -280,9 +214,6 @@
     <% }); %>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div>© 2025 QuizMaster. Created by Nguyen Dinh Bao An</div>
-  </footer>
+  <%- include('../partial/footer') %>
 </body>
 </html>

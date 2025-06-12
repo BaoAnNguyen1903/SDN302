@@ -3,49 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>QuizMaster - Create Question</title>
-  <link rel="stylesheet" href="/style/style.css" />
+  <title>Question Bank - Create Question</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      font-family: Arial, sans-serif;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-    }
-
-    .navbar-left {
-      display: flex;
-      padding-left: 35px;
-    }
-
-    .nav-item {
-      margin-right: 24px;
-      color: #000;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .nav-item i {
-      margin-right: 6px;
-    }
-
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      padding-right: 20px;
-    }
-
     main {
       flex: 1;
       padding: 40px 16px;
@@ -116,29 +76,10 @@
     .form-submit button:hover {
       background-color: #58b57a;
     }
-
-    .footer {
-      text-align: center;
-      padding: 16px 0;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-      color: #333;
-      font-size: 14px;
-    }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
-      <a href="/createQuizPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
-      <a href="/createQuestionPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Question</a>
-      <a href="/listQuestions" class="nav-item"> List Question</a>
-    </div>
-    <div class="navbar-right">
-      <span>Hi, Nguyen Dinh Bao An...</span>
-    </div>
-  </header>
+  <%- include('../partial/header') %>
 
   <!-- Main -->
   <main>
@@ -180,9 +121,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div>© 2025 QuizMaster. Created by Nguyen Dinh Bao An</div>
-  </footer>
+  <%- include('../partial/footer') %>
 </body>
 </html>
