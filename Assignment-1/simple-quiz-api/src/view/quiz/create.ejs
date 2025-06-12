@@ -13,22 +13,23 @@
     referrerpolicy="no-referrer"
   />
   <style>
-    /* Main */
+    /* Main Layout */
     main {
       flex: 1;
       display: flex;
-      align-items: center;
+      align-items: flex-start;
       justify-content: center;
       padding: 40px 20px;
       background-color: #f9f9f9;
     }
 
+    /* Form Container */
     .form-container {
       width: 100%;
-      max-width: 500px;
+      max-width: 600px;
       background-color: #fff;
       padding: 32px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       border-radius: 12px;
     }
 
@@ -38,48 +39,93 @@
       margin-bottom: 24px;
     }
 
+    /* Form Elements */
     label {
       display: block;
-      font-weight: bold;
+      font-weight: 600;
       margin-bottom: 6px;
+      color: #333;
     }
 
     input[type="text"],
-    textarea,
-    input[type="number"] {
+    input[type="number"],
+    textarea {
       width: 100%;
-      padding: 10px;
+      padding: 10px 12px;
       border: 1px solid #ccc;
-      border-radius: 6px;
-      margin-bottom: 16px;
-    }
-
-    fieldset {
-      margin-bottom: 20px;
-      border: 1px solid #ddd;
       border-radius: 8px;
-      padding: 10px;
+      margin-bottom: 16px;
+      font-size: 14px;
+      font-family: inherit;
+      box-sizing: border-box;
     }
 
-    legend {
-      font-weight: bold;
+    textarea {
+      resize: vertical;
     }
 
+    /* Submit Button */
     .submit-btn {
       display: block;
-      margin: 0 auto;
+      margin: 20px auto 0;
       background-color: #77d497;
       color: white;
-      padding: 10px 24px;
+      padding: 12px 24px;
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       font-weight: bold;
       font-size: 16px;
       cursor: pointer;
+      transition: background 0.2s ease;
     }
 
     .submit-btn:hover {
       background-color: #5cbf7d;
+    }
+
+    /* Available Questions */
+    .form-container h3 {
+      font-size: 16px;
+      margin-top: 24px;
+      margin-bottom: 12px;
+      color: #333;
+    }
+
+    .available-question {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .available-question input[type="checkbox"] {
+      margin-right: 8px;
+      accent-color: #77d497;
+    }
+
+    /* New Questions */
+    fieldset {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      padding: 16px;
+      margin-bottom: 20px;
+      background-color: #fefefe;
+    }
+
+    legend {
+      font-weight: bold;
+      padding: 0 6px;
+      color: #333;
+      font-size: 15px;
+    }
+
+    input::placeholder {
+      color: #aaa;
+      font-style: italic;
+    }
+
+    /* Correct Answer Label */
+    fieldset label {
+      margin-top: 12px;
     }
   </style>
 </head>
@@ -101,9 +147,10 @@
           <textarea id="description" name="description" rows="3" required></textarea>
         </div>
 
+        <!-- Chọn câu hỏi có sẵn -->
         <h3>Chọn question có sẵn</h3>
         <% questions.forEach(q => { %>
-          <div>
+          <div class="available-question">
             <input type="checkbox" name="questions" value="<%= q._id %>" id="q_<%= q._id %>" />
             <label for="q_<%= q._id %>"><%= q.text %></label>
           </div>

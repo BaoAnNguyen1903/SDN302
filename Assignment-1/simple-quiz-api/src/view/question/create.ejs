@@ -6,28 +6,49 @@
   <title>Question Bank - Create Question</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+  /* Reset và base */
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+
     main {
       flex: 1;
       padding: 40px 16px;
       display: flex;
       justify-content: center;
       align-items: flex-start;
-      background-color: #f7f7f7;
+      background-color: #f9f9f9;
     }
 
     .form-container {
       width: 100%;
-      max-width: 600px;
-      background-color: #fff;
-      padding: 32px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+      max-width: 640px;
+      background-color: #ffffff;
+      padding: 36px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
       border-radius: 12px;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .form-container:hover {
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
     }
 
     .form-container h1 {
       color: #77d497;
       text-align: center;
-      margin-bottom: 24px;
+      font-size: 28px;
+      margin-bottom: 28px;
+      font-weight: 600;
     }
 
     .form-group {
@@ -35,17 +56,32 @@
     }
 
     .form-group label {
-      font-weight: bold;
+      font-weight: 600;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      color: #555;
     }
 
     .form-group input,
     .form-group textarea {
       width: 100%;
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
+      padding: 12px 14px;
+      border: 1px solid #dcdfe3;
+      border-radius: 8px;
+      font-size: 15px;
+      transition: border-color 0.3s ease;
+      background-color: #fdfdfd;
+    }
+
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #4CAF87;
+      box-shadow: 0 0 0 2px rgba(76, 175, 135, 0.2);
+    }
+
+    .form-group textarea {
+      resize: vertical;
     }
 
     .form-group input[type="number"] {
@@ -60,21 +96,33 @@
 
     .form-submit {
       text-align: center;
+      margin-top: 30px;
     }
 
     .form-submit button {
       background-color: #77d497;
-      color: white;
-      padding: 10px 24px;
+      color: #fff;
+      padding: 12px 28px;
       border: none;
-      border-radius: 6px;
-      font-weight: bold;
+      border-radius: 8px;
       font-size: 16px;
+      font-weight: 600;
       cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
     }
 
     .form-submit button:hover {
-      background-color: #58b57a;
+      background-color: #3ea371;
+      transform: translateY(-1px);
+    }
+
+    .form-submit button:active {
+      transform: scale(0.98);
+    }
+
+    ::placeholder {
+      color: #aaa;
+      font-style: italic;
     }
   </style>
 </head>
