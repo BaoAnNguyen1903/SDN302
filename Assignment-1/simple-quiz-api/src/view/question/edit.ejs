@@ -5,20 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Chỉnh sửa Câu hỏi | Question Bank</title>
   <link rel="stylesheet" href="/style/style.css" />
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
-    crossorigin="anonymous"
-    referrerpolicy="no-referrer"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <style>
+    body {
+      background-color: #f7f7f7;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 0;
+      margin: 0;
+    }
+
     .form-container {
       max-width: 800px;
       margin: 40px auto;
       background: #fff;
       padding: 32px;
       border-radius: 16px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
     }
 
     .form-title {
@@ -36,15 +38,23 @@
       font-weight: bold;
       color: #2d6a4f;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
-    .form-input, .form-select {
+    .form-input,
+    .form-textarea,
+    .form-select {
       width: 100%;
-      padding: 10px;
+      padding: 10px 14px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 16px;
+      box-sizing: border-box;
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 80px;
     }
 
     .btn-submit {
@@ -56,7 +66,10 @@
       font-size: 16px;
       cursor: pointer;
       transition: background-color 0.2s ease;
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       margin: 0 auto;
     }
 
@@ -74,6 +87,11 @@
       <div class="form-group">
         <label class="form-label" for="text">Câu hỏi</label>
         <input type="text" id="text" name="text" class="form-input" value="<%= question.text %>" required />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label" for="description">Mô tả</label>
+        <textarea id="description" name="description" class="form-textarea" required><%= question.description %></textarea>
       </div>
 
       <% question.options.forEach((opt, idx) => { %>
@@ -94,7 +112,14 @@
         </select>
       </div>
 
-      <button type="submit" class="btn-submit"><i class="fas fa-save"></i> Lưu thay đổi</button>
+      <div class="form-group">
+        <label class="form-label" for="keywords">Từ khóa (phân cách bằng dấu phẩy)</label>
+        <input type="text" id="keywords" name="keywords" class="form-input" value="<%= question.keywords.join(',') %>" />
+      </div>
+
+      <button type="submit" class="btn-submit">
+        <i class="fas fa-save"></i> Lưu thay đổi
+      </button>
     </form>
   </div>
 
