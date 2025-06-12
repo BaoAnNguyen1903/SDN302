@@ -13,120 +13,6 @@
     referrerpolicy="no-referrer"
   />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      scroll-behavior: smooth;
-    }
-
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-    }
-
-    .navbar-left {
-      display: flex;
-      padding-left: 35px;
-    }
-
-    .nav-item {
-      margin-right: 24px;
-      color: #000;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .nav-item i {
-      margin-right: 6px;
-    }
-
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      padding-right: 20px;
-    }
-
-    /* Hero Section */
-    .hero {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 60px 40px;
-      background: linear-gradient(120deg, #e6f4ea, #ffffff);
-      flex-wrap: wrap;
-      border-bottom: 1px solid #dbece0;
-    }
-
-    .hero-content {
-      flex: 1;
-      max-width: 550px;
-      padding: 0 20px;
-    }
-
-    .hero-content h1 {
-      font-size: 48px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #1b4332;
-    }
-
-    .hero-content .brand {
-      color: #2d6a4f;
-      font-weight: 800;
-    }
-
-    .hero-content p {
-      font-size: 18px;
-      color: #4f4f4f;
-      margin-bottom: 28px;
-      line-height: 1.5;
-    }
-
-    .btn-create {
-      background: #40916c;
-      color: white;
-      padding: 14px 28px;
-      border-radius: 8px;
-      text-decoration: none;
-      font-size: 16px;
-      transition: background 0.3s ease;
-      display: inline-block;
-    }
-
-    .btn-create:hover {
-      background: #2d6a4f;
-    }
-
-    .hero-img {
-      flex: 1;
-      max-width: 350px;
-      margin-top: 30px;
-    }
-
-    @media (max-width: 768px) {
-      .hero {
-        flex-direction: column;
-        text-align: center;
-        padding: 40px 20px;
-      }
-
-      .hero-content {
-        padding: 0;
-      }
-
-      .hero-img {
-        margin-top: 30px;
-      }
-    }
-
     /* Title */
     .title {
       text-align: center;
@@ -183,70 +69,46 @@
     }
 
     .card-actions a,
-.card-actions form button {
-  text-decoration: none;
-  padding: 6px 12px;
-  font-size: 14px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.btn-do {
-  background-color: #52b788;
-  color: #fff;
-}
-
-.btn-do:hover {
-  background-color: #40916c;
-}
-
-.btn-edit {
-  background-color: #f4a261;
-  color: #fff;
-}
-
-.btn-edit:hover {
-  background-color: #e76f51;
-}
-
-.btn-delete {
-  background-color: #e63946;
-  color: #fff;
-}
-
-.btn-delete:hover {
-  background-color: #c1121f;
-}
-
-
-    /* Footer */
-    .footer {
-      margin-top: auto;
-      text-align: center;
-      padding: 16px 0;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-      color: #333;
+    .card-actions form button {
+      text-decoration: none;
+      padding: 6px 12px;
       font-size: 14px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-do {
+      background-color: #52b788;
+      color: #fff;
+    }
+
+    .btn-do:hover {
+      background-color: #40916c;
+    }
+
+    .btn-edit {
+      background-color: #f4a261;
+      color: #fff;
+    }
+
+    .btn-edit:hover {
+      background-color: #e76f51;
+    }
+
+    .btn-delete {
+      background-color: #e63946;
+      color: #fff;
+    }
+
+    .btn-delete:hover {
+      background-color: #c1121f;
     }
   </style>
 </head>
 <body>
-
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
-      <a href="/createQuizPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
-      <a href="/createQuestionPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Question</a>
-      <a href="/listQuestions" class="nav-item"> List Question</a>
-    </div>
-    <div class="navbar-right">
-      <span>Hi, Nguyen Dinh Bao An...</span>
-    </div>
-  </header>
-
+  <%- include('../partial/header') %>
 
   <!-- Quiz List -->
   <h2 class="title">Danh sách Question</h2>
@@ -261,9 +123,6 @@
     <% }); %>
   </div>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div>© 2025 Question Bank. Created by Nguyen Dinh Bao An</div>
-  </footer>
+  <%- include('../partial/footer') %>
 </body>
 </html>

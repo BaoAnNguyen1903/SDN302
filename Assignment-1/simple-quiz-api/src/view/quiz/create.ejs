@@ -13,46 +13,6 @@
     referrerpolicy="no-referrer"
   />
   <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-    }
-
-    /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 24px;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-    }
-
-    .navbar-left {
-      display: flex;
-      padding-left: 35px;
-    }
-
-    .nav-item {
-      margin-right: 24px;
-      color: #000;
-      text-decoration: none;
-      font-size: 16px;
-    }
-
-    .nav-item i {
-      margin-right: 6px;
-    }
-
-    .navbar-right {
-      display: flex;
-      align-items: center;
-      padding-right: 20px;
-    }
-
     /* Main */
     main {
       flex: 1;
@@ -121,30 +81,10 @@
     .submit-btn:hover {
       background-color: #5cbf7d;
     }
-
-    /* Footer */
-    .footer {
-      text-align: center;
-      padding: 16px 0;
-      background: linear-gradient(to right, #c2e9c9, #77d497);
-      color: #333;
-      font-size: 14px;
-    }
   </style>
 </head>
 <body>
-  <!-- Navbar -->
-  <header class="navbar">
-    <div class="navbar-left">
-      <a href="/" class="nav-item"><i class="fas fa-home"></i> Home</a>
-      <a href="/createQuizPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Quiz</a>
-      <a href="/createQuestionPage" class="nav-item"><i class="fas fa-plus"></i> Tạo Question</a>
-      <a href="/listQuestions" class="nav-item">List Question</a>
-    </div>
-    <div class="navbar-right">
-      <span>Hi, Nguyen Dinh Bao An...</span>
-    </div>
-  </header>
+  <%- include('../partial/header') %>
 
   <!-- Main -->
   <main>
@@ -187,9 +127,6 @@
     </div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div>© 2025 Question Bank. Created by Nguyen Dinh Bao An</div>
-  </footer>
+  <%- include('../partial/footer') %>
 </body>
 </html>
