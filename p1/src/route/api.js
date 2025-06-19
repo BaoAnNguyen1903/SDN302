@@ -13,6 +13,7 @@ router.post("/", auth, authorizeRole("student"), regCtrl.registerEvent);
 router.delete("/:registrationId", auth, authorizeRole("student"), regCtrl.unregisterEvent);
 
 // Chỉ admin được phép xem và tìm kiếm
+router.get("/listRegistrations", auth, authorizeRole("admin"), regCtrl.listRegistrations);
 router.get("/getRegistrationsByDate", auth, authorizeRole("admin"), regCtrl.getRegistrationsByDate);
 
 module.exports = router;

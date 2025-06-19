@@ -29,22 +29,36 @@ module.exports = {
   },
 
   listRegistrations: async (req, res) => {
-    const list = await Registration.find().populate("studentId eventId").limit(50);
+    const list = await Registration.find()
+      .populate("studentId eventId")
+      .limit(50);
     if (list.length === 0) return res.json({ message: "No registrations yet" });
     res.json(list);
   },
 
   getRegistrationsByDate: async (req, res) => {
     const { start, end } = req.query;
+
+    if (!start || !end) {
+      return res.status(400).json({ error: "Missing start or end date" });
+    }
+
     const startDate = new Date(start);
     const endDate = new Date(end);
+    endDate.setDate(endDate.getDate() + 1); // Bao trọn cả ngày end
+
+    if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+      return res.status(400).json({ error: "Invalid date format" });
+    }
 
     if (startDate >= endDate) {
-      return res.status(400).json({ error: "Start date must be before end date" });
+      return res
+        .status(400)
+        .json({ error: "Start date must be before end date" });
     }
 
     const result = await Registration.find({
-      registrationDate: { $gte: startDate, $lte: endDate }
+      registrationDate: { $gte: startDate, $lt: endDate } // < endDate
     }).populate("studentId eventId");
 
     res.json(result);
