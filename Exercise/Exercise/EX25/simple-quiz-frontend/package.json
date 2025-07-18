@@ -1,0 +1,16 @@
+{
+  "name": "simple-quiz-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for Simple Quiz Application",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.7",
+    "ejs": "^3.1.10",
+    "express": "^5.1.0",
+    "express-ejs-layouts": "^2.5.1",
+    "method-override": "^3.0.0"
+  }
+}

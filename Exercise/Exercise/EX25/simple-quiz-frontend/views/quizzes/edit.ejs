@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Quiz</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+    .edit-quiz-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    .card {
+        border-radius: 1rem;
+        box-shadow: var(--shadow-md);
+        border: none;
+        margin-bottom: 2rem;
+    }
+    .card-title {
+        font-weight: 700;
+        font-size: 1.5rem;
+    }
+    .form-label {
+        font-weight: 500;
+        color: var(--primary-dark);
+    }
+    .form-control {
+        border-radius: 0.5rem;
+        padding: 0.75rem 1rem;
+        border: 1px solid #e5e7eb;
+        transition: all 0.3s;
+    }
+    .form-control:focus {
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+    }
+    .input-group-text {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 0.5rem 0 0 0.5rem;
+    }
+    .btn {
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+    .btn-primary, .btn-success {
+        background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+        border: none;
+    }
+    .btn-outline-primary {
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+    }
+    .btn-outline-primary:hover {
+        background: var(--primary-color);
+        color: white;
+    }
+    .btn-outline-danger {
+        border: 2px solid var(--danger-color);
+        color: var(--danger-color);
+    }
+    .btn-outline-danger:hover {
+        background: var(--danger-color);
+        color: white;
+    }
+    .list-group-item {
+        border-radius: 0.75rem;
+        margin-bottom: 0.75rem;
+        box-shadow: var(--shadow-sm);
+        border: none;
+        background: var(--bg-white);
+    }
+    .badge {
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        border-radius: 2rem;
+    }
+    @media (max-width: 768px) {
+        .edit-quiz-container {
+            padding: 0 1rem;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="container mt-4">
+        <div class="page-header d-flex justify-content-between align-items-center mb-4">
+            <h2>
+                <i class="fas fa-edit me-2"></i>
+                Edit Quiz
+            </h2>
+            <a href="/quizzes" class="btn btn-secondary">
+                <i class="fas fa-arrow-left me-1"></i> Back to Quizzes
+            </a>
+        </div>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Quiz Information
+                        </h5>
+                        <% if (error) { %>
+                            <div class="alert alert-danger">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                <%= error.message %>
+                            </div>
+                        <% } %>
+                        <form action="/quizzes/<%= quiz._id %>?_method=PUT" method="POST">
+                            <div class="mb-3">
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" value="<%= quiz.title %>" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea class="form-control" id="description" name="description" rows="3"><%= quiz.description %></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-save me-1"></i> Update Quiz
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Add Question Form -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <i class="fas fa-plus-circle me-2"></i>
+                            Add New Question
+                        </h5>
+                        <form action="/quizzes/<%= quiz._id %>/questions" method="POST">
+                            <div class="mb-3">
+                                <label for="questionText" class="form-label">Question Text</label>
+                                <textarea class="form-control" id="questionText" name="questionText" rows="3" required></textarea>
+                            </div>
+                            <div id="optionsContainer">
+                                <div class="mb-3">
+                                    <label class="form-label">Options</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text">
+                                            <input type="radio" name="correctOption" value="0" required>
+                                        </div>
+                                        <input type="text" class="form-control" name="options[]" placeholder="Option 1" required>
+                                    </div>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-text">
+                                            <input type="radio" name="correctOption" value="1">
+                                        </div>
+                                        <input type="text" class="form-control" name="options[]" placeholder="Option 2" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <button type="button" class="btn btn-outline-primary btn-sm mb-3" onclick="addOption()">
+                                <i class="fas fa-plus me-1"></i> Add Option
+                            </button>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <i class="fas fa-save me-1"></i> Add Question
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="fas fa-list me-2"></i>
+                            Questions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <% if (quiz.questions && quiz.questions.length > 0) { %>
+                            <div class="list-group">
+                                <% quiz.questions.forEach((question, index) => { %>
+                                    <div class="list-group-item">
+                                        <div class="d-flex justify-content-between align-items-start">
+                                            <div>
+                                                <h6 class="mb-1">
+                                                    <span class="badge bg-secondary me-2">#<%= index + 1 %></span>
+                                                    <%= question.text || question.questionText %>
+                                                </h6>
+                                                <div class="mt-2">
+                                                    <strong class="text-success">
+                                                        <i class="fas fa-check-circle me-1"></i>
+                                                        Correct Answer:
+                                                    </strong>
+                                                    <span class="text-primary">
+                                                        <%= (question.options && question.options.length > 0 && typeof question.correctAnswerIndex === 'number') ? question.options[question.correctAnswerIndex] : '' %>
+                                                    </span>
+                                                </div>
+                                                <div class="mt-2">
+                                                    <strong>Options:</strong>
+                                                    <ul class="list-unstyled ms-3">
+                                                        <% if (question.options && question.options.length > 0) { %>
+                                                            <% question.options.forEach((option, optIndex) => { %>
+                                                                <li>
+                                                                    <i class="fas fa-circle me-1 <%= optIndex === question.correctAnswerIndex ? 'text-success' : 'text-muted' %>"></i>
+                                                                    <%= option %>
+                                                                </li>
+                                                            <% }); %>
+                                                        <% } else { %>
+                                                            <li><em>No options</em></li>
+                                                        <% } %>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <div class="btn-group">
+                                                <a href="/questions/<%= question._id %>/edit" class="btn btn-sm btn-outline-primary">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                                <form action="/quizzes/<%= quiz._id %>/questions/<%= question._id %>?_method=DELETE" method="POST" class="d-inline">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" onclick="return confirm('Are you sure you want to delete this question?')">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <% }); %>
+                            </div>
+                        <% } else { %>
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                No questions added yet. Add your first question using the form on the left.
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+    let optionCount = 2;
+
+    function addOption(containerId) {
+        const container = document.getElementById(containerId);
+        const currentOptions = container.getElementsByClassName('input-group').length;
+        const newOption = document.createElement('div');
+        newOption.className = 'input-group mb-2 align-items-center';
+        newOption.innerHTML = `
+            <div class="input-group-text">
+                <input type="radio" name="correctAnswerIndex" value="${currentOptions}">
+            </div>
+            <input type="text" 
+                   class="form-control" 
+                   name="options[]" 
+                   placeholder="Option ${currentOptions + 1}" 
+                   required>
+        `;
+        container.appendChild(newOption);
+    }
+
+    function submitQuestion() {
+        const form = document.getElementById('addQuestionForm');
+        const formData = new FormData(form);
+        const options = formData.getAll('options[]');
+        const correctAnswerIndex = parseInt(formData.get('correctAnswerIndex'), 10);
+
+        const questionData = {
+            text: formData.get('text'),
+            options: options,
+            correctAnswerIndex: correctAnswerIndex
+        };
+
+        fetch(`https://localhost:3443/quizzes/<%= quiz._id %>/questions`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(questionData)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                throw new Error('Failed to add question');
+            }
+        })
+        .catch(error => {
+            alert('Error adding question: ' + error.message);
+        });
+    }
+
+    function editQuestion(quizId, questionId, text, options, correctAnswerIndex) {
+        document.getElementById('editQuestionId').value = questionId;
+        document.getElementById('editQuestionText').value = text;
+        
+        const container = document.getElementById('editOptionsContainer');
+        container.innerHTML = '';
+        
+        options.forEach((option, index) => {
+            const optionDiv = document.createElement('div');
+            optionDiv.className = 'input-group mb-2 align-items-center';
+            optionDiv.innerHTML = `
+                <div class="input-group-text">
+                    <input type="radio" 
+                           name="correctAnswerIndex" 
+                           value="${index}" 
+                           ${index === correctAnswerIndex ? 'checked' : ''}>
+                </div>
+                <input type="text" 
+                       class="form-control" 
+                       name="options[]" 
+                       value="${option}" 
+                       required>
+            `;
+            container.appendChild(optionDiv);
+        });
+
+        const editModal = new bootstrap.Modal(document.getElementById('editQuestionModal'));
+        editModal.show();
+    }
+
+    function updateQuestion() {
+        const form = document.getElementById('editQuestionForm');
+        const formData = new FormData(form);
+        const questionId = document.getElementById('editQuestionId').value;
+        const options = formData.getAll('options[]');
+        const correctAnswerIndex = parseInt(formData.get('correctAnswerIndex'), 10);
+
+        const questionData = {
+            text: formData.get('text'),
+            options: options,
+            correctAnswerIndex: correctAnswerIndex
+        };
+
+        fetch(`https://localhost:3443/quizzes/<%= quiz._id %>/questions/${questionId}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(questionData)
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                throw new Error('Failed to update question');
+            }
+        })
+        .catch(error => {
+            alert('Error updating question: ' + error.message);
+        });
+    }
+
+    function removeQuestion(quizId, questionId) {
+        if (confirm('Are you sure you want to remove this question?')) {
+            fetch(`https://localhost:3443/quizzes/${quizId}/questions/${questionId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload();
+                } else {
+                    throw new Error('Failed to remove question');
+                }
+            })
+            .catch(error => {
+                alert('Error removing question: ' + error.message);
+            });
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.edit-question-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const quizId = this.dataset.quizId;
+                const questionId = this.dataset.questionId;
+                const text = this.dataset.questionText;
+                const options = JSON.parse(this.dataset.options);
+                const correctAnswerIndex = parseInt(this.dataset.correctIndex);
+                
+                editQuestion(quizId, questionId, text, options, correctAnswerIndex);
+            });
+        });
+    });
+
+    function addOption() {
+        const container = document.getElementById('optionsContainer');
+        const optionCount = container.getElementsByClassName('input-group').length;
+        
+        const newOption = document.createElement('div');
+        newOption.className = 'input-group mb-2';
+        newOption.innerHTML = `
+            <div class="input-group-text">
+                <input type="radio" name="correctOption" value="${optionCount}">
+            </div>
+            <input type="text" class="form-control" name="options[]" placeholder="Option ${optionCount + 1}" required>
+        `;
+        
+        container.appendChild(newOption);
+    }
+    </script>
+</body>
+</html>

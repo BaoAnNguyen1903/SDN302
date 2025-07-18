@@ -1,0 +1,60 @@
+<div class="container mt-4">
+    <div class="page-header d-flex justify-content-between align-items-center">
+        <h1><i class="fas fa-plus-circle"></i> Create New Quiz</h1>
+        <a href="/quizzes" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i> Back to Quizzes
+        </a>
+    </div>
+
+    <% if (error) { %>
+        <div class="alert alert-danger mt-3">
+            <i class="fas fa-exclamation-circle"></i> <%= error.message %>
+        </div>
+    <% } %>
+
+    <div class="card mt-4">
+        <div class="card-body">
+            <form action="/quizzes" method="POST">
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" required
+                           value="<%= quiz ? quiz.title : '' %>"
+                           minlength="3" maxlength="100">
+                    <div class="form-text">Title must be between 3 and 100 characters</div>
+                </div>
+
+                <div class="mb-3">
+                    <label for="description" class="form-label">Description</label>
+                    <textarea class="form-control" id="description" name="description" rows="4" required
+                              minlength="10" maxlength="500"><%= quiz ? quiz.description : '' %></textarea>
+                    <div class="form-text">Description must be between 10 and 500 characters</div>
+                </div>
+
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Create Quiz
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelector('form').addEventListener('submit', function(e) {
+    const title = document.getElementById('title').value;
+    const description = document.getElementById('description').value;
+
+    if (title.length < 3 || title.length > 100) {
+        e.preventDefault();
+        alert('Title must be between 3 and 100 characters');
+        return;
+    }
+
+    if (description.length < 10 || description.length > 500) {
+        e.preventDefault();
+        alert('Description must be between 10 and 500 characters');
+        return;
+    }
+});
+</script>

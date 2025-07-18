@@ -1,0 +1,122 @@
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h1 class="card-title">Edit Question</h1>
+            
+            <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-danger">
+                    <%= error %>
+                </div>
+            <% } %>
+            
+            <form action="/questions/<%= question._id %>?_method=PUT" method="POST">
+                <div class="mb-3">
+                    <label for="questionText" class="form-label">Question Text</label>
+                    <input type="text" class="form-control" id="questionText" name="questionText" value="<%= question.text || question.questionText %>" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Options</label>
+                    <% if (question.options && question.options.length > 0) { %>
+                        <% question.options.forEach((option, idx) => { %>
+                            <div class="input-group mb-2">
+                                <div class="input-group-text">
+                                    <input type="radio" name="correctOption" value="<%= idx %>" <%= idx === question.correctAnswerIndex ? 'checked' : '' %> required>
+                                </div>
+                                <input type="text" class="form-control" name="options[]" value="<%= option %>" required>
+                            </div>
+                        <% }); %>
+                    <% } %>
+                </div>
+                <button type="submit" class="btn btn-primary w-100">
+                    <i class="fas fa-save me-1"></i> Update Question
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+function addOption() {
+    const container = document.getElementById('optionsContainer');
+    const optionCount = container.children.length;
+    
+    const optionDiv = document.createElement('div');
+    optionDiv.className = 'input-group mb-2';
+    optionDiv.innerHTML = `
+        <div class="input-group-text">
+            <input type="radio" name="correctAnswer" value="${optionCount}">
+        </div>
+        <input type="text" class="form-control" name="options[]" 
+               placeholder="Option ${optionCount + 1}" required>
+    `;
+    
+    container.appendChild(optionDiv);
+}
+</script>
+
+<style>
+.edit-question-container {
+    max-width: 600px;
+    margin: 0 auto;
+}
+.card {
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+    border: none;
+    margin-bottom: 2rem;
+}
+.card-title {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+.form-label {
+    font-weight: 500;
+    color: var(--primary-dark);
+}
+.form-control {
+    border-radius: 0.5rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+    transition: all 0.3s;
+}
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(99,102,241,0.1);
+}
+.input-group-text {
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+.btn {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+.btn-primary, .btn-success {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border: none;
+}
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+.btn-outline-danger {
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+}
+.btn-outline-danger:hover {
+    background: var(--danger-color);
+    color: white;
+}
+@media (max-width: 768px) {
+    .edit-question-container {
+        padding: 0 1rem;
+    }
+}
+</style>

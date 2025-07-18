@@ -1,0 +1,116 @@
+<!-- Hero Section -->
+<div class="hero-section">
+    <div class="container">
+        <div class="hero-content text-center">
+            <h1 class="display-4 fw-bold mb-4 animate-up">Quiz Collection</h1>
+            <p class="lead mb-5 animate-up delay-1">Test your knowledge with our curated quizzes</p>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container py-5">
+    <div class="row mb-4">
+        <div class="col-md-6">
+            <h2 class="h3 mb-0">Available Quizzes</h2>
+        </div>
+        <div class="col-md-6 text-md-end">
+            <a href="/quizzes/new" class="btn btn-primary">
+                <i class="fas fa-plus me-2"></i>Create New Quiz
+            </a>
+        </div>
+    </div>
+
+    <div class="quiz-list">
+        <% if (quizzes && quizzes.length > 0) { %>
+            <% quizzes.forEach(quiz => { %>
+                <div class="quiz-item animate-fade-in">
+                    <div class="d-flex justify-content-between align-items-start mb-3">
+                        <h3 class="h4 mb-0"><%= quiz.title %></h3>
+                        <span class="badge bg-primary"><%= quiz.questions ? quiz.questions.length : 0 %> Questions</span>
+                    </div>
+                    <p class="text-muted mb-4"><%= quiz.description || 'No description available' %></p>
+                    <div class="d-flex gap-2">
+                        <a href="/quizzes/<%= quiz._id %>" class="btn btn-primary flex-grow-1">
+                            <i class="fas fa-play me-2"></i>Start Quiz
+                        </a>
+                        <a href="/quizzes/<%= quiz._id %>/edit" class="btn btn-outline-primary">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="/quizzes/<%= quiz._id %>?_method=DELETE" method="POST" class="d-inline">
+                            <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Are you sure you want to delete this quiz?')">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <div class="col-12 text-center py-5">
+                <div class="empty-state">
+                    <i class="fas fa-clipboard-list fa-3x text-muted mb-3"></i>
+                    <h3 class="h4 mb-3">No Quizzes Available</h3>
+                    <p class="text-muted mb-4">Create your first quiz to get started!</p>
+                    <a href="/quizzes/new" class="btn btn-primary">
+                        <i class="fas fa-plus me-2"></i>Create New Quiz
+                    </a>
+                </div>
+            </div>
+        <% } %>
+    </div>
+</div>
+
+<style>
+.empty-state {
+    padding: 3rem;
+    background: var(--bg-white);
+    border-radius: 1rem;
+    box-shadow: var(--shadow-md);
+}
+
+.badge {
+    padding: 0.5rem 1rem;
+    font-weight: 500;
+    border-radius: 2rem;
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-outline-danger {
+    border: 2px solid var(--danger-color);
+    color: var(--danger-color);
+}
+
+.btn-outline-danger:hover {
+    background: var(--danger-color);
+    color: white;
+}
+</style>
+
+<script>
+function deleteQuiz(quizId) {
+    if (confirm('Are you sure you want to delete this quiz?')) {
+        fetch(`https://localhost:3443/quizzes/${quizId}`, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                window.location.reload();
+            } else {
+                throw new Error('Failed to delete quiz');
+            }
+        })
+        .catch(error => {
+            alert('Error deleting quiz: ' + error.message);
+        });
+    }
+}
+</script>
